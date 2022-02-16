@@ -88,7 +88,6 @@ router.get("/accesstoken", async (req, res, next) => {
     const { refreshToken } = req.cookies;
     const id = token.getIdFromRefreshToken(req.cookies)
 
-
     if (!id) {
         return res.status(401).json({
             message: "Unauthorized!"
@@ -102,6 +101,33 @@ router.get("/accesstoken", async (req, res, next) => {
             const accessToken = token.signAccessToken(user.id);
             res.json({
                 accessToken: accessToken
+            })
+        }
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.delete("/logout", async (req, res, next) => {
+    const { refreshToken } = req.cookies;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    try {
+        if (!id) {
+            return res.status(401).json({
+                message: "You are not logged in!"
+            })
+        }
+
+        const user = await models.User.findByPk(id);
+
+        if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
+            user.update({
+                refreshToken: null
+            })
+            res.clearCookie("refreshToken");
+            res.json({
+                message: "You have been logged out."
             })
         }
     } catch (err) {
