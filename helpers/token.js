@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-
 const signAccessToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.ACCESS_SECRET, {
         expiresIn: "30min",
@@ -20,13 +19,9 @@ const verifyRefreshToken = (refreshToken) => {
     return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
 };
 
-const getIdFromRefreshToken = (req, res) => {
-    const { refreshToken } = req.cookies;
-
+const getIdFromRefreshToken = ({ refreshToken }) => {
     if (!refreshToken) {
-        return res.status(401).json({
-            message: "You are not authorized",
-        });
+        return null;
     }
 
     const { id } = verifyRefreshToken(refreshToken);

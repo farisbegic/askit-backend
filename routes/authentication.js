@@ -84,4 +84,29 @@ router.post("/register", async (req, res, next) => {
     }
 })
 
+router.get("/accesstoken", async (req, res, next) => {
+    const { refreshToken } = req.cookies;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+
+    if (!id) {
+        return res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
+    try {
+        const user = await models.User.findByPk(id);
+
+        if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
+            const accessToken = token.signAccessToken(user.id);
+            res.json({
+                accessToken: accessToken
+            })
+        }
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = router;
