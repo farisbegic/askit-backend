@@ -37,6 +37,7 @@ router.post("/login", async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
         res.json({
+            name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
     } catch (err) {
@@ -79,6 +80,7 @@ router.post("/register", async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
         res.json({
+            name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
     } catch (err) {
@@ -104,6 +106,7 @@ router.get("/accesstoken", async (req, res, next) => {
         if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
             const accessToken = token.signAccessToken(user.id);
             res.json({
+                name: user.firstName + " " + user.lastName,
                 accessToken: accessToken
             })
         }
