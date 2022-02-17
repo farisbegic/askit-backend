@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/authentication", require("./routes/authentication"));
+app.use("/user", require("./routes/user"));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
