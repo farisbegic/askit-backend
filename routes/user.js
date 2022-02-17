@@ -4,6 +4,7 @@ const models = require('../database/models')
 const token = require("../helpers/token");
 const {where} = require("sequelize");
 const findUserByEmail = require("../helpers/findUserByEmail");
+const bcrypt = require("bcryptjs");
 
 router.get("/", async (req, res) => {
     const id = token.getIdFromRefreshToken(req.cookies)
@@ -77,5 +78,36 @@ router.put("/update-information", async (req, res) => {
     }
 })
 
+router.post("/update-password", async (req, res) => {
+    const { password, confirmPassword } = req.body;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    if (password !== confirmPassword) {
+        return res.status(400).json({
+            message: "Passwords do not match."
+        })
+    }
+
+    if (!id) {
+        return res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
+    try {
+        const user = await models.User.findByPk(id);
+
+        await user.update({
+            password: bcrypt.hashSync(password, 8)
+        })
+
+        res.json({
+            message: "Password has been updated successfully"
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 module.exports = router;
