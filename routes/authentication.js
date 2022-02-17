@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const findUserByEmail = require("../helpers/findUserByEmail")
 const token = require("../helpers/token")
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -47,7 +47,7 @@ router.post("/login", async (req, res, next) => {
     }
 })
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", async (req, res) => {
     const { firstName, lastName, email, password } = req.body
 
     if (!firstName || !lastName || !email || !password) {
@@ -90,7 +90,7 @@ router.post("/register", async (req, res, next) => {
     }
 })
 
-router.get("/accesstoken", async (req, res, next) => {
+router.get("/accesstoken", async (req, res) => {
     const { refreshToken } = req.cookies;
     const id = token.getIdFromRefreshToken(req.cookies)
 
@@ -117,7 +117,7 @@ router.get("/accesstoken", async (req, res, next) => {
     }
 })
 
-router.delete("/logout", async (req, res, next) => {
+router.delete("/logout", async (req, res) => {
     const { refreshToken } = req.cookies;
     const id = token.getIdFromRefreshToken(req.cookies)
 
