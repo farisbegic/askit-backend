@@ -4,8 +4,11 @@ const models = require('../database/models')
 const token = require("../helpers/token");
 const {Sequelize} = require("sequelize");
 
-router.get("/my-questions",  async (req, res) => {
+router.get("/my-questions/page/:page/size/:size",  async (req, res) => {
+    const { page, size } = req.params;
     const id = token.getIdFromRefreshToken(req.cookies)
+
+    const limit = page * size;
 
     if (!id) {
         return res.status(401).json({
@@ -25,7 +28,8 @@ router.get("/my-questions",  async (req, res) => {
                     model: models.User,
                     attributes: ["firstName", "lastName"],
                 },
-            ]
+            ],
+            limit: limit
         })
 
         return res.json(questions);
