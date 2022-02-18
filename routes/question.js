@@ -4,6 +4,36 @@ const models = require('../database/models')
 const token = require("../helpers/token");
 const {Sequelize} = require("sequelize");
 
+
+// Fetch Hot Questions or questions with most likes
+router.get("/most-likes", async (req, res) => {
+
+    try {
+        const questions = await models.Question.findAll({
+            attributes: [
+                "id",
+                "description",
+                [Sequelize.fn("COUNT", Sequelize.col("QuestionRatings.id")), "count"],
+            ],
+            include: {
+                model: models.QuestionRating,
+                attributes: [],
+                where: {
+                    isLike: true,
+                },
+            },
+            group: ["Question.id"],
+            order: [['"count"', "DESC"]],
+        })
+
+        return res.json(questions);
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+})
+
 // Fetch my questions with load more functionality
 router.get("/my-questions/page/:page/size/:size",  async (req, res) => {
     const { page, size } = req.params;
