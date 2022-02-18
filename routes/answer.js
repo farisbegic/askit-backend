@@ -8,6 +8,14 @@ router.post("/", async (req, res) => {
     const id = token.getIdFromRefreshToken(req.cookies)
 
     try {
+        const question = await models.Question.findByPk(questionId);
+
+        if (!question) {
+            return res.status(400).json({
+                message: "Question doesn't exist"
+            })
+        }
+
         const answer = await models.Answer.create({
             description: description,
             question: questionId,
@@ -17,13 +25,15 @@ router.post("/", async (req, res) => {
         })
 
         if (answer) {
-            res.json({
+            return res.json({
                 message: "You have successfully saved an answer",
             });
         }
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             message: err.message,
         });
     }
 })
+
+module.exports = router

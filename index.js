@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/authentication", require("./routes/authentication"));
 app.use("/user", require("./routes/user"));
 app.use("/question", require("./routes/question"))
+app.use("/answer", require("./routes/answer"))
 
 
 // Invalid route
