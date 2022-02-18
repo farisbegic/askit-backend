@@ -76,6 +76,12 @@ router.get("/:id", async (req, res) => {
     const { id: questionId } = req.params;
     const id = token.getIdFromRefreshToken(req.cookies)
 
+    if (!id) {
+        return res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
     try {
         const question = await models.Question.findOne({
             where: {
@@ -208,6 +214,32 @@ router.get("/page/:page/size/:size", async(req, res) => {
 
         return res.json(questions)
 
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+})
+
+router.post("/", async (req, res) => {
+    const { description } = req.body;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    if (!id) {
+        return res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
+    try {
+        const newQuestion = await models.Question.create({
+            description: description,
+            user: id,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        })
+
+        return res.json(newQuestion);
     } catch (err) {
         return res.status(500).json({
             message: err.message
