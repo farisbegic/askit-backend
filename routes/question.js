@@ -239,7 +239,11 @@ router.post("/", async (req, res) => {
             updatedAt: new Date()
         })
 
-        return res.json(newQuestion);
+        if (newQuestion) {
+            return res.json({
+                message: "Successfully added new question"
+            });
+        }
     } catch (err) {
         return res.status(500).json({
             message: err.message
