@@ -251,4 +251,37 @@ router.post("/", async (req, res) => {
     }
 })
 
+router.delete("/:id", async (req, res) => {
+    const { id: questionId } = req.params;
+
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    try {
+        const question = await models.Question.findByPk(questionId)
+
+        if (!question) {
+            return res.status(400).json({
+                message: "Question doesn't exist"
+            })
+        }
+
+        if (question.user !== id) {
+            return res.status(401).json({
+                message: "You are not authorized"
+            })
+        }
+
+        await question.destroy();
+
+        return res.json({
+            message: "You have successfully deleted a quesion"
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+
+})
+
 module.exports = router;
