@@ -4,6 +4,7 @@ const models = require('../database/models')
 const token = require("../helpers/token");
 const {Sequelize} = require("sequelize");
 
+// Fetch my questions with load more functionality
 router.get("/my-questions/page/:page/size/:size",  async (req, res) => {
     const { page, size } = req.params;
     const id = token.getIdFromRefreshToken(req.cookies)
@@ -40,6 +41,7 @@ router.get("/my-questions/page/:page/size/:size",  async (req, res) => {
     }
 })
 
+// Fetch a question by id including all details
 router.get("/:id", async (req, res) => {
     const { id: questionId } = req.params;
     const id = token.getIdFromRefreshToken(req.cookies)
@@ -148,6 +150,33 @@ router.get("/:id", async (req, res) => {
         }
 
         return res.json(question);
+
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        })
+    }
+})
+
+// Fetch newest question with load more functionality
+router.get("/page/:page/size/:size", async(req, res) => {
+    const { page, size } = req.params;
+    const limit = page * size;
+
+    try {
+        const questions = await models.Question.findAll({
+            attributes: ["id", "description", "createdAt"],
+            order: [["id", "DESC"]],
+            include: [
+                {
+                    model: models.User,
+                    attributes: ["firstName", "lastName"],
+                },
+            ],
+            limit: limit,
+        });
+
+        return res.json(questions)
 
     } catch (err) {
         return res.status(500).json({
