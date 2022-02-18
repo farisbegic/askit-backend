@@ -17,6 +17,13 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/authentication", require("./routes/authentication"));
 app.use("/user", require("./routes/user"));
+app.use("/question", require("./routes/question"))
+
+
+// Invalid route
+app.use(async (req, res) => {
+    await res.status(404).send(`Route is no where to be found.`);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

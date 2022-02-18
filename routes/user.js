@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const models = require('../database/models')
 const token = require("../helpers/token");
-const {where} = require("sequelize");
 const findUserByEmail = require("../helpers/findUserByEmail");
 const bcrypt = require("bcryptjs");
 
