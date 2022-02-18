@@ -274,7 +274,7 @@ router.delete("/:id", async (req, res) => {
         await question.destroy();
 
         return res.json({
-            message: "You have successfully deleted a quesion"
+            message: "You have successfully deleted a question"
         })
     } catch (err) {
         res.status(500).json({
@@ -284,4 +284,37 @@ router.delete("/:id", async (req, res) => {
 
 })
 
+router.put("/", async (req, res) => {
+    const { questionId, description } = req.body;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    try {
+        const question = await models.Question.findByPk(questionId)
+
+        if (!question) {
+            return res.status(400).json({
+                message: "Question doesn't exist"
+            })
+        }
+
+        if (question.user !== id) {
+            return res.status(401).json({
+                message: "You are not authorized to update this question",
+            });
+        }
+
+        await question.update({
+            description: description,
+        })
+
+        return res.json({
+            message: "Question has been updated successfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+
+})
 module.exports = router;
