@@ -3,11 +3,8 @@ const router = express.Router();
 const models = require('../database/models')
 const token = require("../helpers/token");
 
-router.get("/my-questions/size/:size/page/:page",  async (req, res) => {
-    const { size, page } = req.params;
+router.get("/my-questions",  async (req, res) => {
     const id = token.getIdFromRefreshToken(req.cookies)
-
-    const pageLimit = size * page;
 
     if (!id) {
         return res.status(401).json({
@@ -27,8 +24,7 @@ router.get("/my-questions/size/:size/page/:page",  async (req, res) => {
                     model: models.User,
                     attributes: ["firstName", "lastName"],
                 },
-            ],
-            limit: pageLimit
+            ]
         })
 
         return res.json(questions);
