@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const models = require('../database/models')
-const token = require("../helpers/token");
 const questionRatingController = require("../controllers/questionRatingController")
 
 // Save Question Rating
