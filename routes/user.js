@@ -4,6 +4,7 @@ const models = require('../database/models')
 const token = require("../helpers/token");
 const findUserByEmail = require("../helpers/findUserByEmail");
 const bcrypt = require("bcryptjs");
+const {Sequelize} = require("sequelize");
 
 router.get("/", async (req, res) => {
     const id = token.getIdFromRefreshToken(req.cookies)
@@ -106,6 +107,31 @@ router.post("/update-password", async (req, res) => {
 
     } catch (err) {
         console.log(err)
+    }
+})
+
+router.get("/most-answers", async (req, res) => {
+    try {
+        const users = await models.User.findAll({
+            attributes: [
+                "id",
+                "firstName",
+                "lastName",
+                [Sequelize.fn("COUNT", Sequelize.col("Answers.id")), "count"],
+            ],
+            include: {
+                model: models.Answer,
+                attributes: []
+            },
+            group: ["User.id"],
+            order: [['"count"', "DESC"]],
+        })
+
+        return res.json(users)
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        })
     }
 })
 
