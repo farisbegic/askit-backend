@@ -10,6 +10,7 @@ router.post("/", answerController.saveAnswer)
 // Update an answer
 router.put("/", answerController.updateAnswer)
 
+// Delete an answer
 router.delete("/:id", answerController.deleteAnswer)
 
 module.exports = router
