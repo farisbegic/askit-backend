@@ -77,10 +77,8 @@ const register = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
-        console.log(accessToken)
-        console.log(refreshToken)
-
         res.json({
+            name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
     } catch (err) {
