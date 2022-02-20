@@ -35,7 +35,7 @@ const login = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             domain: '.herokuapp.com',
-            secure: req.secure
+            secure: true
         });
 
         res.json({
@@ -83,7 +83,7 @@ const register = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             domain: '.herokuapp.com',
-            secure: req.secure
+            secure: true
         });
 
         res.json({
