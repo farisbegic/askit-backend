@@ -2,7 +2,7 @@ const token = require("../helpers/token");
 const models = require("../database/models");
 
 const saveQuestionRating = async (req, res) => {
-    const { questionId, isLike } = req.body;
+    const { id: questionId, isLike } = req.body;
     const id = token.getIdFromRefreshToken(req.cookies)
 
     if (!id) {
@@ -30,7 +30,7 @@ const saveQuestionRating = async (req, res) => {
 }
 
 const updateQuestionRating = async (req, res) => {
-    const { questionId, isLike } = req.body;
+    const { id: questionId, isLike } = req.body;
     const id = token.getIdFromRefreshToken(req.cookies)
 
     try {

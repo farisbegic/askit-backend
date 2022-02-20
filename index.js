@@ -20,6 +20,7 @@ app.use("/user", require("./routes/user"));
 app.use("/question", require("./routes/question"))
 app.use("/answer", require("./routes/answer"))
 app.use("/questionrating", require("./routes/questionrating"))
+app.use("/answerrating", require("./routes/answerrating"))
 
 
 // Invalid route
