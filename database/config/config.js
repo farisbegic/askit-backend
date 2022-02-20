@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 module.exports = {
   "development": {
     "username": process.env.DBUSERNAME,
@@ -11,14 +9,14 @@ module.exports = {
   "test": {
     "username": process.env.DBUSERNAME,
     "password": process.env.DBPASSWORD,
-    "database": "database_test",
+    "database": "ask.it",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": process.env.DBUSERNAME,
     "password": process.env.DBPASSWORD,
-    "database": "database_production",
+    "database": "ask.it",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
