@@ -12,6 +12,19 @@ const saveAnswerRating = async (req, res) => {
     }
 
     try {
+        const answerrating = await models.AnswerRating.findOne({
+            where: {
+                user: id,
+                answer: answerId
+            }
+        })
+
+        if (answerrating) {
+            return res.json({
+                message: "Error. Rating already exists."
+            })
+        }
+
         await models.AnswerRating.create({
             user: id,
             answer: answerId,
