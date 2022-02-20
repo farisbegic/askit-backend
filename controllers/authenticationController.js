@@ -35,6 +35,7 @@ const login = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
         res.json({
+            id: user.id,
             name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
@@ -78,6 +79,7 @@ const register = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
 
         res.json({
+            id: user.id,
             name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
@@ -104,6 +106,7 @@ const getAccessToken = async (req, res) => {
         if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
             const accessToken = token.signAccessToken(user.id);
             res.json({
+                id: user.id,
                 name: user.firstName + " " + user.lastName,
                 accessToken: accessToken
             })
