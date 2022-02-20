@@ -23,8 +23,8 @@ const saveQuestionRating = async (req, res) => {
             message: "You have successfully added question rating"
         })
     } catch (err) {
-        return res.status(200).json({
-            message: "You have successfully saved a question rating"
+        return res.status(500).json({
+            message: err.message
         })
     }
 }
