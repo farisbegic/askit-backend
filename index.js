@@ -3,7 +3,7 @@ const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const app = express()
 const port = process.env.PORT || 8000;
-require('dotenv').config()
+process.env.NODE_ENV !== 'production' ? require('dotenv').config() : null
 
 app.use(cors({
     origin: true,
