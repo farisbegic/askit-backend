@@ -32,7 +32,11 @@ const login = async (req, res) => {
 
         user.update({ refreshToken: bcrypt.hashSync(refreshToken, 8)})
 
-        res.cookie('refreshToken', refreshToken, {httpOnly: true});
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            domain: '.herokuapp.com',
+            secure: req.secure
+        });
 
         res.json({
             id: user.id,
@@ -76,7 +80,11 @@ const register = async (req, res) => {
 
         user.update({ refreshToken: bcrypt.hashSync(refreshToken, 8)})
 
-        res.cookie('refreshToken', refreshToken, {httpOnly: true});
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            domain: '.herokuapp.com',
+            secure: req.secure
+        });
 
         res.json({
             id: user.id,
