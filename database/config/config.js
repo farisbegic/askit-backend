@@ -1,4 +1,4 @@
-process.env.NODE_ENV !== 'production' ? require('dotenv').config() : null
+require('dotenv').config()
 
 module.exports = {
   "development": {
