@@ -81,7 +81,6 @@ const register = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            domain: '.herokuapp.com',
             secure: true
         });
 
