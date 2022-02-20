@@ -119,7 +119,7 @@ const getAnswersForQuestion = async (req, res) => {
                     Sequelize.literal(`(
                 SELECT COUNT(*)
                 FROM "AnswerRatings"
-                WHERE "question" = ${questionId} AND "isLike" = true
+                WHERE "answer" = "Answer".id AND "isLike" = true
                 )`),
                     "likes",
                 ],
@@ -127,7 +127,7 @@ const getAnswersForQuestion = async (req, res) => {
                     Sequelize.literal(`(
                 SELECT COUNT(*)
                 FROM "AnswerRatings"
-                WHERE "question" = ${questionId} AND "isLike" = false
+                WHERE "answer" = "Answer".id AND "isLike" = false
                 )`),
                     "dislikes",
                 ],
@@ -135,7 +135,7 @@ const getAnswersForQuestion = async (req, res) => {
                     Sequelize.literal(`(
                 SELECT COUNT(*)
                 FROM "AnswerRatings"
-                WHERE "question" = ${questionId} AND "user" = ${id} AND "isLike" = true
+                WHERE "answer" = "Answer".id AND "user" = ${id} AND "isLike" = true
                 )`),
                     "hasLiked",
                 ],
@@ -143,15 +143,18 @@ const getAnswersForQuestion = async (req, res) => {
                     Sequelize.literal(`(
                 SELECT COUNT(*)
                 FROM "AnswerRatings"
-                WHERE "question" = ${questionId} AND "user" = ${id} AND "isLike" = false
+                WHERE "answer" = "Answer".id AND "user" = ${id} AND "isLike" = false
                 )`),
                     "hasDisliked",
                 ],
             ],
-            include: {
+            include: [{
                 model: models.User,
                 attributes: ["id", "firstName", "lastName"]
-            },
+            }, {
+                model: models.AnswerRating,
+                attributes: []
+            }],
             order: [["createdAt", "ASC"]]
         })
 
