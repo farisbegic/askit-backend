@@ -30,15 +30,20 @@ const saveQuestionRating = async (req, res) => {
 }
 
 const updateQuestionRating = async (req, res) => {
-    const { questionRatingId, isLike } = req.body;
+    const { questionId, isLike } = req.body;
     const id = token.getIdFromRefreshToken(req.cookies)
 
     try {
-        const questionrating = await models.QuestionRating.findByPk(questionRatingId);
+        const questionrating = await models.QuestionRating.findOne({
+            where: {
+                user: id,
+                question: questionId
+            }
+        });
 
         if (!questionrating) {
             return res.status(400).json({
-                message: "Question Rating with that ID doesn't exist"
+                message: "Question Rating doesn't exist"
             })
         }
 
@@ -63,11 +68,16 @@ const updateQuestionRating = async (req, res) => {
 }
 
 const deleteQuestionRating = async (req, res) => {
-    const { id: questionRatingId } = req.params;
+    const { id: questionId } = req.params;
     const id = token.getIdFromRefreshToken(req.cookies)
 
     try {
-        const questionrating = await models.QuestionRating.findByPk(questionRatingId);
+        const questionrating = await models.QuestionRating.findOne({
+            where: {
+                user: id,
+                question: questionId
+            }
+        });
 
         if (!questionrating) {
             return res.status(400).json({
