@@ -11,7 +11,7 @@ router.get("/most-likes", questionController.getQuestionsWithMostLikes)
 // Fetch my questions with load more functionality
 router.get("/my-questions/page/:page/size/:size",  questionController.getUserQuestions)
 
-// Fetch a question by id including all details
+// Fetch a question by id, include likes dislikes
 router.get("/:id", questionController.getQuestionDetails)
 
 // Fetch newest question with load more functionality

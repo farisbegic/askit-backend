@@ -1,5 +1,6 @@
 const token = require("../helpers/token");
 const models = require("../database/models");
+const {Sequelize} = require("sequelize");
 
 const saveAnswer = async (req, res) => {
     const { description, questionId } = req.body
@@ -98,8 +99,73 @@ const deleteAnswer = async (req, res) => {
     }
 }
 
+const getAnswersForQuestion = async (req, res) => {
+    const { id: questionId } = req.params;
+    const id = token.getIdFromRefreshToken(req.cookies)
+
+    if (!id) {
+        return res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
+    try {
+        const answers = await models.Answer.findAll({
+            where: {
+                question: questionId
+            },
+            attributes: ["id", "description", "createdAt",
+                [
+                    Sequelize.literal(`(
+                SELECT COUNT(*)
+                FROM "AnswerRatings"
+                WHERE "question" = ${questionId} AND "isLike" = true
+                )`),
+                    "likes",
+                ],
+                [
+                    Sequelize.literal(`(
+                SELECT COUNT(*)
+                FROM "AnswerRatings"
+                WHERE "question" = ${questionId} AND "isLike" = false
+                )`),
+                    "dislikes",
+                ],
+                [
+                    Sequelize.literal(`(
+                SELECT COUNT(*)
+                FROM "AnswerRatings"
+                WHERE "question" = ${questionId} AND "user" = ${id} AND "isLike" = true
+                )`),
+                    "hasLiked",
+                ],
+                [
+                    Sequelize.literal(`(
+                SELECT COUNT(*)
+                FROM "AnswerRatings"
+                WHERE "question" = ${questionId} AND "user" = ${id} AND "isLike" = false
+                )`),
+                    "hasDisliked",
+                ],
+            ],
+            include: {
+                model: models.User,
+                attributes: ["id", "firstName", "lastName"]
+            }
+        })
+
+        return res.json(answers);
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
 module.exports = {
     saveAnswer,
     updateAnswer,
-    deleteAnswer
+    deleteAnswer,
+    getAnswersForQuestion
 }
