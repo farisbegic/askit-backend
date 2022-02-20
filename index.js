@@ -4,6 +4,9 @@ const cookieParser = require("cookie-parser");
 const app = express()
 const port = process.env.PORT || 8000;
 require('dotenv').config()
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 app.use(cors({
     origin: true,
