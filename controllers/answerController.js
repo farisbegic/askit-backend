@@ -151,7 +151,8 @@ const getAnswersForQuestion = async (req, res) => {
             include: {
                 model: models.User,
                 attributes: ["id", "firstName", "lastName"]
-            }
+            },
+            order: [["createdAt", "ASC"]]
         })
 
         return res.json(answers);

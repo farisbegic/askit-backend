@@ -1,9 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const models = require('../database/models')
-const bcrypt = require("bcryptjs");
-const findUserByEmail = require("../helpers/findUserByEmail")
-const token = require("../helpers/token")
 const authenticationController = require("../controllers/authenticationController")
 
 // Login
