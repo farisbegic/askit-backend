@@ -13,4 +13,7 @@ router.put("/", answerController.updateAnswer)
 // Delete an answer
 router.delete("/:id", answerController.deleteAnswer)
 
+// Fetch answers by Question ID
+router.get("/question/:id", answerController.getAnswersForQuestion)
+
 module.exports = router

@@ -119,57 +119,10 @@ const getQuestionDetails = async (req, res) => {
             ],
             include: [
                 {
-                    model: models.Answer,
-                    attributes: [
-                        "id",
-                        "description",
-                        "createdAt",
-                        [
-                            Sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM "AnswerRatings"
-                WHERE "answer" = "Answers".id AND "isLike" = true
-                )`),
-                            "likes",
-                        ],
-                        [
-                            Sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM "AnswerRatings"
-                WHERE "answer" = "Answers".id AND "isLike" = false
-                )`),
-                            "dislikes",
-                        ],
-                        [
-                            Sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM "AnswerRatings"
-                WHERE "answer" = "Answers".id AND "user" = ${id} AND "isLike" = true
-                )`),
-                            "hasLiked",
-                        ],
-                        [
-                            Sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM "AnswerRatings"
-                WHERE "answer" = "Answers".id AND "user" = ${id} AND "isLike" = false
-                )`),
-                            "hasDisliked",
-                        ],
-                    ],
-                    include: [
-                        {
-                            model: models.User,
-                            attributes: ["id", "firstName", "lastName"],
-                        }
-                    ],
-                },
-                {
                     model: models.User,
                     attributes: ["id", "firstName", "lastName"],
-                },
-            ],
-            order: [[{ model: models.Answer }, "createdAt", "ASC"]],
+                }
+            ]
         });
 
         if (!question) {
