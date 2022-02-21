@@ -40,7 +40,6 @@ const login = async (req, res) => {
 
         res.json({
             id: user.id,
-            name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
     } catch (err) {
@@ -83,12 +82,11 @@ const register = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "none"
+            sameSite: process.env.NODE_ENV === "production" ? "none" : ""
         });
 
         res.json({
             id: user.id,
-            name: user.firstName + " " + user.lastName,
             accessToken: accessToken
         })
     } catch (err) {
