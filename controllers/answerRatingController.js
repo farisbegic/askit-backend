@@ -3,13 +3,7 @@ const token = require("../helpers/token");
 
 const saveAnswerRating = async (req, res) => {
     const { id: answerId, isLike } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const answerrating = await models.AnswerRating.findOne({
@@ -44,7 +38,7 @@ const saveAnswerRating = async (req, res) => {
 
 const updateAnswerRating = async (req, res) => {
     const { id: answerId, isLike } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const answerrating = await models.AnswerRating.findOne({
@@ -76,7 +70,7 @@ const updateAnswerRating = async (req, res) => {
 
 const deleteAnswerRating = async (req, res) => {
     const { id: answerId } = req.params;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const answerrating = await models.AnswerRating.findOne({

@@ -4,7 +4,7 @@ const {Sequelize} = require("sequelize");
 
 const saveAnswer = async (req, res) => {
     const { description, questionId } = req.body
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const question = await models.Question.findByPk(questionId);
@@ -37,7 +37,7 @@ const saveAnswer = async (req, res) => {
 
 const updateAnswer = async (req, res) => {
     const { answerId, description } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const answer = await models.Answer.findByPk(answerId);
@@ -70,7 +70,7 @@ const updateAnswer = async (req, res) => {
 
 const deleteAnswer = async (req, res) => {
     const { id: answerId } = req.params;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const answer = await models.Answer.findByPk(answerId);
@@ -101,13 +101,7 @@ const deleteAnswer = async (req, res) => {
 
 const getAnswersForQuestion = async (req, res) => {
     const { id: questionId } = req.params;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const answers = await models.Answer.findAll({

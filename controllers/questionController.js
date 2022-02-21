@@ -31,15 +31,8 @@ const getQuestionsWithMostLikes = async (req, res) => {
 
 const getUserQuestions = async (req, res) => {
     const { page, size } = req.params;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
+    const id = res.locals.id
     const limit = page * size;
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
 
     try {
         const questions = await models.Question.findAll({
@@ -67,13 +60,7 @@ const getUserQuestions = async (req, res) => {
 
 const getQuestionDetails = async (req, res) => {
     const { id: questionId } = req.params;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const question = await models.Question.findOne({
@@ -168,13 +155,7 @@ const getNewestQuestions = async (req, res) => {
 
 const saveQuestion = async (req, res) => {
     const { description } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const newQuestion = await models.Question.create({
@@ -198,8 +179,7 @@ const saveQuestion = async (req, res) => {
 
 const deleteQuestion = async (req, res) => {
     const { id: questionId } = req.params;
-
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const question = await models.Question.findByPk(questionId)
@@ -230,7 +210,7 @@ const deleteQuestion = async (req, res) => {
 
 const updateQuestion = async (req, res) => {
     const { questionId, description } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
         const question = await models.Question.findByPk(questionId)

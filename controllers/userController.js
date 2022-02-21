@@ -5,13 +5,7 @@ const bcrypt = require("bcryptjs");
 const {Sequelize} = require("sequelize");
 
 const getUser = async (req, res) => {
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const user = await models.User
@@ -38,13 +32,7 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { firstName, lastName, email } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     // Prevents assigning used email by another user to the current user
 
@@ -84,17 +72,11 @@ const updateUser = async (req, res) => {
 
 const updatePassword = async (req, res) => {
     const { password, confirmPassword } = req.body;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     if (password !== confirmPassword) {
         return res.status(400).json({
             message: "Passwords do not match."
-        })
-    }
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
         })
     }
 

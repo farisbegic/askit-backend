@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authenticationController = require("../controllers/authenticationController")
+const checkAccessToken = require("../middleware/checkAccessToken")
 
 // Login
 router.post("/login", authenticationController.login)
@@ -9,9 +10,9 @@ router.post("/login", authenticationController.login)
 router.post("/register", authenticationController.register)
 
 // Generate access token based on refresh token
-router.get("/accesstoken", authenticationController.getAccessToken)
+router.get("/accesstoken", checkAccessToken, authenticationController.getAccessToken)
 
 // Logout
-router.delete("/logout", authenticationController.logout)
+router.delete("/logout", checkAccessToken, authenticationController.logout)
 
 module.exports = router;

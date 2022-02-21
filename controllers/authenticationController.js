@@ -100,13 +100,7 @@ const register = async (req, res) => {
 
 const getAccessToken = async (req, res) => {
     const { refreshToken } = req.cookies;
-    const id = token.getIdFromRefreshToken(req.cookies)
-
-    if (!id) {
-        return res.status(401).json({
-            message: "Unauthorized!"
-        })
-    }
+    const id = res.locals.id
 
     try {
         const user = await models.User.findByPk(id);
@@ -128,15 +122,9 @@ const getAccessToken = async (req, res) => {
 
 const logout = async (req, res) => {
     const { refreshToken } = req.cookies;
-    const id = token.getIdFromRefreshToken(req.cookies)
+    const id = res.locals.id
 
     try {
-        if (!id) {
-            return res.status(401).json({
-                message: "You are not logged in!"
-            })
-        }
-
         const user = await models.User.findByPk(id);
 
         if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
