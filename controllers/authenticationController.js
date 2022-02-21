@@ -34,8 +34,7 @@ const login = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true,
-            domain: "netlify.app"
+            secure: process.env.NODE_ENV === "production"
         });
 
         res.json({
@@ -82,7 +81,7 @@ const register = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true
+            secure: process.env.NODE_ENV === "production"
         });
 
         res.json({

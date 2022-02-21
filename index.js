@@ -6,11 +6,11 @@ const port = process.env.PORT || 8000;
 require('dotenv').config()
 
 app.use(cors({
-    origin: true,
+    origin: process.env.FRONTEND_APP_URL,
     credentials: true
 }));
 
-app.enable('trust proxy');
+app.set("trust proxy", 1);
 
 app.use(cookieParser())
 
