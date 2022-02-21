@@ -44,7 +44,7 @@ const getUserQuestions = async (req, res) => {
             include: [
                 {
                     model: models.User,
-                    attributes: ["firstName", "lastName"],
+                    attributes: ["id","firstName", "lastName"],
                 },
             ],
             limit: limit
