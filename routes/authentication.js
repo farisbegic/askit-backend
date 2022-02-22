@@ -10,7 +10,7 @@ router.post("/login", authenticationController.login)
 router.post("/register", authenticationController.register)
 
 // Generate access token based on refresh token
-router.get("/accesstoken", checkAccessToken, authenticationController.getAccessToken)
+router.get("/accesstoken", authenticationController.getAccessToken)
 
 // Logout
 router.delete("/logout", checkAccessToken, authenticationController.logout)

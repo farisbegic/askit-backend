@@ -22,7 +22,6 @@ const login = async (req, res) => {
         }
 
         if (!bcrypt.compareSync(password, user.password)) {
-            console.log("USAO U COMPARE")
             return res.status(401).json({
                 message: "Incorrect password."
             })
@@ -99,8 +98,7 @@ const register = async (req, res) => {
 
 const getAccessToken = async (req, res) => {
     const { refreshToken } = req.cookies;
-    const id = res.locals.id
-
+    const { id } = token.verifyRefreshToken(refreshToken);
     try {
         const user = await models.User.findByPk(id);
 
@@ -108,7 +106,6 @@ const getAccessToken = async (req, res) => {
             const accessToken = token.signAccessToken(user.id);
             res.json({
                 id: user.id,
-                name: user.firstName + " " + user.lastName,
                 accessToken: accessToken
             })
         }
