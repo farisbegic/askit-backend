@@ -35,7 +35,7 @@ const login = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict"
+            sameSite: "lax"
         });
 
         res.json({
@@ -82,7 +82,7 @@ const register = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict"
+            sameSite: "lax"
         });
 
         res.json({
@@ -139,7 +139,7 @@ const logout = async (req, res) => {
             res.clearCookie("refreshToken", {
                 httpOnly: true,
                 secure: true,
-                sameSite: "strict"
+                sameSite: "lax"
             });
             res.json({
                 message: "You have been logged out."
