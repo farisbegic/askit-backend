@@ -1,12 +1,35 @@
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
-const app = express()
-const port = process.env.PORT || 8000;
+const token = require('./helpers/token')
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 require('dotenv').config()
 
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+    cors: {
+        origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : "http://localhost:3000",
+        withCredentials: true
+    }
+});
+
+io.on("connection", (socket) => {
+    socket.on("join", (accessToken) => {
+        try {
+            const { id } = token.verifyAccessToken(accessToken);
+            socket.join(id);
+        } catch {
+            socket.disconnect()
+        }
+    })
+});
+
+app.set("socketio", io)
+
 app.use(cors({
-    origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : true,
+    origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : "http://localhost:3000",
     credentials: true
 }));
 
@@ -30,6 +53,5 @@ app.use(async (req, res) => {
     await res.status(404).send(`Route is no where to be found.`);
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+const PORT = process.env.PORT || 8000;
+httpServer.listen(PORT)

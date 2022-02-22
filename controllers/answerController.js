@@ -23,7 +23,10 @@ const saveAnswer = async (req, res) => {
             updatedAt: new Date()
         })
 
+        const io = req.app.get('socketio')
+
         if (answer) {
+            io.to(question.user).emit("new-answer", answer);
             return res.json({
                 message: "You have successfully saved an answer",
             });

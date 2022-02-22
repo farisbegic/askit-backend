@@ -22,6 +22,7 @@ const login = async (req, res) => {
         }
 
         if (!bcrypt.compareSync(password, user.password)) {
+            console.log("USAO U COMPARE")
             return res.status(401).json({
                 message: "Incorrect password."
             })
@@ -129,6 +130,7 @@ const logout = async (req, res) => {
             user.update({
                 refreshToken: null
             })
+
             res.clearCookie("refreshToken");
             res.json({
                 message: "You have been logged out."
