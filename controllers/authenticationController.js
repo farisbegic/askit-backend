@@ -35,8 +35,7 @@ const login = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
-            domain: '.herokuapp.com',
+            sameSite: "none"
         });
 
         res.json({
@@ -137,11 +136,7 @@ const logout = async (req, res) => {
                 refreshToken: null
             })
 
-            res.clearCookie("refreshToken", {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "none"
-            });
+            res.clearCookie("refreshToken");
             res.json({
                 message: "You have been logged out."
             })
