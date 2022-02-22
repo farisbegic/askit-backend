@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
 app.set("socketio", io)
 
 app.use(cors({
-    origin: process.env.FRONTEND_APP_URL,
+    origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : true,
     credentials: true
 }));
 
