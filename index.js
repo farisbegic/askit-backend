@@ -7,26 +7,7 @@ const { Server } = require("socket.io");
 require('dotenv').config()
 
 const app = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: true,
-        credentials: true
-    }
-});
 
-io.on("connection", (socket) => {
-    socket.on("join", (accessToken) => {
-        try {
-            const { id } = token.verifyAccessToken(accessToken);
-            socket.join(id);
-        } catch {
-            socket.disconnect()
-        }
-    })
-});
-
-app.set("socketio", io)
 app.set('trust proxy', 1)
 
 app.use(cors({
@@ -53,4 +34,4 @@ app.use(async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8000;
-httpServer.listen(PORT)
+app.listen(PORT)
