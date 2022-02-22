@@ -29,11 +29,9 @@ io.on("connection", (socket) => {
 app.set("socketio", io)
 
 app.use(cors({
-    origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : "http://localhost:3000",
+    origin: process.env.FRONTEND_APP_URL,
     credentials: true
 }));
-
-app.set("trust proxy", 1);
 
 app.use(cookieParser())
 

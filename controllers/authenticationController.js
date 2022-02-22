@@ -34,8 +34,8 @@ const login = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : ""
+            secure: true,
+            sameSite: "none"
         });
 
         res.json({
@@ -81,8 +81,8 @@ const register = async (req, res) => {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : ""
+            secure: true,
+            sameSite: "none"
         });
 
         res.json({
@@ -135,7 +135,11 @@ const logout = async (req, res) => {
                 refreshToken: null
             })
 
-            res.clearCookie("refreshToken");
+            res.clearCookie("refreshToken", {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none"
+            });
             res.json({
                 message: "You have been logged out."
             })
