@@ -105,8 +105,8 @@ const getAccessToken = async (req, res) => {
         })
     }
 
-    const { id } = token.verifyRefreshToken(refreshToken);
     try {
+        const { id } = token.verifyRefreshToken(refreshToken);
         const user = await models.User.findByPk(id);
 
         if (bcrypt.compareSync(refreshToken, user.refreshToken)) {
@@ -125,9 +125,9 @@ const getAccessToken = async (req, res) => {
 
 const logout = async (req, res) => {
     const { refreshToken } = req.cookies;
-    const id = res.locals.id
 
     try {
+        const { id } = token.verifyRefreshToken(refreshToken);
         const user = await models.User.findByPk(id);
 
         if (bcrypt.compareSync(refreshToken, user.refreshToken)) {

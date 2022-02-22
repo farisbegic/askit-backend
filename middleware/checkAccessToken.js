@@ -2,7 +2,6 @@ const token = require("../helpers/token")
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization
-    console.log(authHeader)
     if (!authHeader) {
         res.status(401).json({
             message: "Unauthorized!"
@@ -11,5 +10,6 @@ module.exports = (req, res, next) => {
     const accessToken = authHeader.split(" ")[1];
     const { id } = token.verifyAccessToken(accessToken)
     res.locals.id = id;
+
     next()
 }

@@ -19,19 +19,9 @@ const verifyRefreshToken = (refreshToken) => {
     return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
 };
 
-const getIdFromRefreshToken = ({ refreshToken }) => {
-    if (!refreshToken) {
-        return null;
-    }
-
-    const { id } = verifyRefreshToken(refreshToken);
-    return id;
-};
-
 module.exports = {
     signAccessToken,
     signRefreshToken,
     verifyAccessToken,
     verifyRefreshToken,
-    getIdFromRefreshToken,
 };
