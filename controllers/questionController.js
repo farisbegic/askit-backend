@@ -209,7 +209,7 @@ const deleteQuestion = async (req, res) => {
 }
 
 const updateQuestion = async (req, res) => {
-    const { questionId, description } = req.body;
+    const { id: questionId, description } = req.body;
     const id = res.locals.id
 
     try {

@@ -36,7 +36,7 @@ const saveAnswer = async (req, res) => {
 }
 
 const updateAnswer = async (req, res) => {
-    const { answerId, description } = req.body;
+    const { id: answerId, description } = req.body;
     const id = res.locals.id
 
     try {
