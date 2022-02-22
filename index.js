@@ -11,7 +11,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : "http://localhost:3000",
-        withCredentials: true
+        credentials: true
     }
 });
 
@@ -30,7 +30,7 @@ app.set("socketio", io)
 
 app.use(cors({
     origin: process.env.FRONTEND_APP_URL,
-    withCredentials: true
+    credentials: true
 }));
 
 app.enable('trust proxy');
