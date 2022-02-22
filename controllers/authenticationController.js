@@ -113,8 +113,7 @@ const getAccessToken = async (req, res) => {
             const accessToken = token.signAccessToken(user.id);
             res.json({
                 id: user.id,
-                accessToken: accessToken,
-                sameSite: "none"
+                accessToken: accessToken
             })
         }
     } catch (err) {
