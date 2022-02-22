@@ -98,6 +98,13 @@ const register = async (req, res) => {
 
 const getAccessToken = async (req, res) => {
     const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+        res.status(401).json({
+            message: "Unauthorized!"
+        })
+    }
+
     const { id } = token.verifyRefreshToken(refreshToken);
     try {
         const user = await models.User.findByPk(id);
