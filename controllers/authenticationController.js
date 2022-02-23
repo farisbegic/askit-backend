@@ -2,6 +2,7 @@ const findUserByEmail = require("../helpers/findUserByEmail");
 const bcrypt = require("bcryptjs");
 const token = require("../helpers/token");
 const models = require("../database/models");
+const cookieSettings = require("../helpers/cookieSettings");
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -32,11 +33,7 @@ const login = async (req, res) => {
 
         user.update({ refreshToken: bcrypt.hashSync(refreshToken, 8)})
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        });
+        res.cookie('refreshToken', refreshToken, cookieSettings);
 
         res.json({
             id: user.id,
@@ -79,11 +76,7 @@ const register = async (req, res) => {
 
         user.update({ refreshToken: bcrypt.hashSync(refreshToken, 8)})
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        });
+        res.cookie('refreshToken', refreshToken, cookieSettings);
 
         res.json({
             id: user.id,
@@ -135,11 +128,7 @@ const logout = async (req, res) => {
                 refreshToken: null
             })
 
-            res.clearCookie("refreshToken", {
-                httpOnly: true,
-                secure: true,
-                sameSite: "none"
-            });
+            res.clearCookie("refreshToken");
             res.json({
                 message: "You have been logged out."
             })
