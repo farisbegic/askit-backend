@@ -24,4 +24,7 @@ router.delete("/:id", checkAccessToken, questionController.deleteQuestion)
 // Update a question
 router.put("/", checkAccessToken, questionController.updateQuestion)
 
+// Search
+router.get("/search/:description", questionController.searchQuestion)
+
 module.exports = router;

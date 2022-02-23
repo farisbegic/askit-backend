@@ -1,5 +1,5 @@
 const models = require("../database/models");
-const {Sequelize} = require("sequelize");
+const {Sequelize, Op} = require("sequelize");
 const token = require("../helpers/token");
 
 const getQuestionsWithMostLikes = async (req, res) => {
@@ -241,6 +241,26 @@ const updateQuestion = async (req, res) => {
     }
 }
 
+const searchQuestion = async (req, res) => {
+    const { description } = req.params;
+
+    try {
+        const question = await models.Question.findAll({
+            attributes: ["id", "description", "createdAt"],
+            where: {
+                description: { [Op.iLike]: '%' + description + '%'}
+            }
+        })
+
+        return res.json(question)
+    } catch (err) {
+        return res.json({
+            message: err.message
+        })
+    }
+
+}
+
 module.exports = {
     getQuestionsWithMostLikes,
     getUserQuestions,
@@ -248,5 +268,6 @@ module.exports = {
     getNewestQuestions,
     saveQuestion,
     deleteQuestion,
-    updateQuestion
+    updateQuestion,
+    searchQuestion
 }
