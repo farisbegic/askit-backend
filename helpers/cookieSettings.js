@@ -1,5 +1,6 @@
 module.exports = {
     httpOnly: true,
     secure: true,
-    sameSite: "none"
+    sameSite: "none",
+    maxAge: 1296000000
 }

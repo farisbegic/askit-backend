@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
     })
 });
 
+app.set('trust proxy', 1)
 app.set("socketio", io)
 
 app.use(cors({
