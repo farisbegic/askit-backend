@@ -26,11 +26,12 @@ io.on("connection", (socket) => {
     })
 });
 
-app.set('trust proxy', 1)
+
+app.enable('trust proxy');
 app.set("socketio", io)
 
 app.use(cors({
-    origin: true,
+    origin: process.env.FRONTEND_APP_URL,
     credentials: true
 }));
 
