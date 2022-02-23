@@ -128,7 +128,7 @@ const logout = async (req, res) => {
                 refreshToken: null
             })
 
-            res.clearCookie("refreshToken", cookieSettings);
+            res.clearCookie('refreshToken', cookieSettings);
             res.json({
                 message: "You have been logged out."
             })
