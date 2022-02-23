@@ -31,7 +31,7 @@ app.set('trust proxy', 1)
 app.enable('trust proxy');
 
 app.use(cors({
-    origin: process.env.NODE_ENV ? process.env.FRONTEND_APP_URL : true,
+    origin: true,
     credentials: true
 }));
 
