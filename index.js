@@ -1,16 +1,16 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
 const token = require('./helpers/token')
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-require('dotenv').config()
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: true,
+        origin: process.env.FRONTEND_APP_URL,
         credentials: true
     }
 });
@@ -31,7 +31,7 @@ app.enable('trust proxy');
 app.set("socketio", io)
 
 app.use(cors({
-    origin: true,
+    origin: process.env.FRONTEND_APP_URL,
     credentials: true
 }));
 
